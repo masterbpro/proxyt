@@ -75,12 +75,8 @@ ProxyT provides official Helm charts for easy Kubernetes deployment.
 ### Quick Start
 
 ```bash
-# Add the Helm repository
-helm repo add proxyt https://jaxxstorm.github.io/proxyt
-helm repo update
-
-# Install ProxyT
-helm install proxyt proxyt/proxyt \
+# Install from OCI registry (recommended)
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com
 ```
@@ -89,7 +85,7 @@ helm install proxyt proxyt/proxyt \
 
 **Standalone with Let's Encrypt:**
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com \
   --set service.type=LoadBalancer
@@ -97,7 +93,7 @@ helm install proxyt proxyt/proxyt \
 
 **Behind Ingress Controller:**
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.httpOnly=true \
   --set ingress.enabled=true \
@@ -107,10 +103,17 @@ helm install proxyt proxyt/proxyt \
 
 **With cert-manager:**
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set certManager.enabled=true \
-  --set certManager.issuer.name=letsencrypt-prod
+  --set certManager.issuer.name=letsencrypt-production
+```
+
+**From GitHub Release:**
+```bash
+helm install proxyt https://github.com/masterbpro/proxyt/releases/download/proxyt-1.0.1/proxyt-1.0.1.tgz \
+  --set proxyt.domain=proxy.example.com \
+  --set proxyt.email=admin@example.com
 ```
 
 ### Verify Installation
@@ -123,6 +126,4 @@ kubectl get pods -l app.kubernetes.io/name=proxyt
 kubectl port-forward svc/proxyt 8080:80
 curl http://localhost:8080/health
 ```
-
-For detailed configuration options, see the [chart documentation](../charts/proxyt/README.md).
 

@@ -24,8 +24,7 @@ docker run -d -p 80:80 -p 443:443 -v proxyt-certs:/certs \
 
 ### Kubernetes (Helm)
 ```bash
-helm repo add proxyt https://jaxxstorm.github.io/proxyt
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com
 ```

@@ -5,12 +5,8 @@ ProxyT provides official Helm charts for Kubernetes deployment.
 ## Quick Start
 
 ```bash
-# Add repository
-helm repo add proxyt https://jaxxstorm.github.io/proxyt
-helm repo update
-
-# Install
-helm install proxyt proxyt/proxyt \
+# Install from OCI registry
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com
 ```
@@ -20,7 +16,7 @@ helm install proxyt proxyt/proxyt \
 ### 1. Standalone with Let's Encrypt
 
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com \
   --set service.type=LoadBalancer
@@ -29,7 +25,7 @@ helm install proxyt proxyt/proxyt \
 ### 2. Behind Ingress Controller
 
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.httpOnly=true \
   --set ingress.enabled=true \
@@ -40,16 +36,24 @@ helm install proxyt proxyt/proxyt \
 ### 3. With cert-manager
 
 ```bash
-helm install proxyt proxyt/proxyt \
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set certManager.enabled=true \
-  --set certManager.issuer.name=letsencrypt-prod
+  --set certManager.issuer.name=letsencrypt-production
 ```
 
 ### 4. Production Setup
 
 ```bash
-helm install proxyt proxyt/proxyt -f values-production.yaml
+helm install proxyt oci://ghcr.io/masterbpro/charts/proxyt -f values-production.yaml
+```
+
+### 5. From GitHub Release
+
+```bash
+helm install proxyt https://github.com/masterbpro/proxyt/releases/download/proxyt-1.0.1/proxyt-1.0.1.tgz \
+  --set proxyt.domain=proxy.example.com \
+  --set proxyt.email=admin@example.com
 ```
 
 **values-production.yaml:**
@@ -123,7 +127,7 @@ curl http://localhost:8080/health
 ## Upgrade
 
 ```bash
-helm upgrade proxyt proxyt/proxyt \
+helm upgrade proxyt oci://ghcr.io/masterbpro/charts/proxyt \
   --set proxyt.domain=proxy.example.com \
   --set proxyt.email=admin@example.com
 ```
