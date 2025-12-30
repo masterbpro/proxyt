@@ -7,9 +7,12 @@ permissions:
 
 on:
   push:
+    branches:
+      - main
+    paths:
+      - 'charts/**'
     tags:
       - 'v*'
-  workflow_dispatch:
 
 jobs:
   release:
@@ -28,10 +31,19 @@ jobs:
       - name: Package Chart
         run: helm package charts/proxyt
 
+      - name: Get Chart Version
+        id: chart_version
+        run: |
+          VERSION=$(helm show chart charts/proxyt | grep '^version:' | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name == 'main' && format('chart-v{0}', steps.chart_version.outputs.version) || github.ref_name }}
           files: proxyt-*.tgz
           fail_on_unmatched_files: true
+          body: |
+            Helm Chart for ProxyT version ${{ steps.chart_version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
